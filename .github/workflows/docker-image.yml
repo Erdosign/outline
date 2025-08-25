@@ -44,3 +44,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          
+      # Step 6: Trigger Portainer to redeploy (Optional)
+      - name: Trigger Portainer Webhook
+        if: success() # Only trigger if the build was successful
+        run: |
+          curl -s -X POST "${{ secrets.PORTAINER_WEBHOOK_URL }}"
